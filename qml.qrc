@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file alias="search-doc-icon">assets/icons/find_in_page_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png</file>
+        <file alias="menu-icon">assets/icons/menu_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png</file>
+        <file alias="search-icon">assets/icons/search_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png</file>
+    </qresource>
+</RCC>
