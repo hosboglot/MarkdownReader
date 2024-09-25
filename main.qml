@@ -11,6 +11,7 @@ ApplicationWindow {
         width: parent.width
 
         RowLayout {
+            // @disable-check M16
             anchors.fill: parent
 
             ToolButton {
@@ -43,6 +44,7 @@ ApplicationWindow {
             width: parent.width
 
             RowLayout {
+                // @disable-check M16
                 anchors.fill: parent
 
                 Label {
