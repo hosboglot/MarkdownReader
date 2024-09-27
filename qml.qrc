@@ -2,23 +2,13 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file alias="search-doc-icon">assets/icons/find_in_page_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png</file>
-        <file alias="menu-icon">assets/icons/menu_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png</file>
-        <file alias="search-icon">assets/icons/search_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png</file>
-        <file>test-repo/code/c#.md</file>
-        <file>test-repo/code/css &amp; js.md</file>
-        <file>test-repo/code/пхп.md</file>
-        <file>test-repo/lists/task-lists.md</file>
-        <file>test-repo/lists/списки.md</file>
-        <file>test-repo/ссылки/links.md</file>
-        <file>test-repo/ссылки/картинки.md</file>
-        <file>test-repo/Full-Markdown.md</file>
-        <file>test-repo/headers.md</file>
-        <file>test-repo/ignoring markdown.md</file>
-        <file>test-repo/main.md</file>
-        <file>test-repo/other.md</file>
-        <file>test-repo/videos.md</file>
-        <file>test-repo/ссылки.md</file>
-        <file>test-repo/таблицы.md</file>
+        <file alias="Reader.qml">qml/Reader.qml</file>
     </qresource>
+    <qresource prefix="/icons">
+        <file alias="search">assets/icons/search_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png</file>
+        <file alias="menu">assets/icons/menu_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png</file>
+        <file alias="search-document">assets/icons/find_in_page_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png</file>
+        <file alias="plus">assets/icons/add_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png</file>
+    </qresource>
+    <qresource prefix="/test-repo"/>
 </RCC>
