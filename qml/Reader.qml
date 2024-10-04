@@ -14,6 +14,9 @@ Item {
         onLocalSourceChanged: {
             repositoryView.model = repositoryModel();
         }
+        onOpenDocumentChanged: {
+            documentView.model = documentModel();
+        }
     }
 
     FileDialog {
@@ -21,6 +24,39 @@ Item {
         title: "Выберите директорию"
         selectFolder: true
         onAccepted: repositoryHandler.localSource = fileUrl
+    }
+
+    Popup {
+        id: documentSearchPopup
+        height: reader.height
+        width: reader.width
+
+        contentItem: ColumnLayout {
+            anchors.fill: parent
+            TextField {
+                Layout.fillWidth: true
+                placeholderText: "Введите запрос"
+                onPreeditTextChanged: documentSearchView.model.setFilterFixedString(text)
+            }
+            ListView {
+                id: documentSearchView
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                clip: true
+                focus: true
+                spacing: 10
+
+                delegate: BlockDelegate {
+                    baseUrl: repositoryHandler.openDocument
+                    onClicked: {
+                        documentView.positionViewAtIndex(
+                                    ListView.view.model.getModelIndex(index),
+                                    ListView.Beginning);
+                        documentSearchPopup.close();
+                    }
+                }
+            }
+        }
     }
 
     Drawer {
@@ -35,7 +71,6 @@ Item {
                 width: parent.width
 
                 RowLayout {
-                    // @disable-check M16
                     anchors.fill: parent
 
                     Label {
@@ -56,27 +91,22 @@ Item {
                 }
             }
 
-            Component {
-                id: repositoryDelegate
-                Rectangle {
-                    height: ListView.view.height / 20
-                    width: ListView.view.width
-                    color: ListView.isCurrentItem ? "lightgrey" : "white"
-                    Text {
-                        anchors.fill: parent
-                        leftPadding: 10 * nestedDepth
-                        verticalAlignment: Text.AlignVCenter
-                        text: name
-                    }
-                }
-            }
-
             ListView {
                 id: repositoryView
                 anchors.fill: parent
                 clip: true
                 focus: true
-                delegate: repositoryDelegate
+                delegate: RepositoryDelegate {
+                    onClicked: {
+                        if (isDir) {
+                            isOpen = !isOpen;
+                        } else {
+                            ListView.view.currentIndex = index;
+                            repositoryHandler.openDocument = path;
+                            drawer.close();
+                        }
+                    }
+                }
             }
         }
     }
@@ -88,7 +118,6 @@ Item {
             width: parent.width
 
             RowLayout {
-                // @disable-check M16
                 anchors.fill: parent
 
                 ToolButton {
@@ -107,15 +136,32 @@ Item {
                 ToolButton {
                     id: searchDocumentButton
                     icon.source: "icons/search-document"
+                    onClicked: {
+                        if (!repositoryHandler.documentModel()) {
+                            return;
+                        }
+                        documentSearchView.model = repositoryHandler.searchDocumentModel();
+                        documentSearchPopup.open();
+                    }
                 }
             }
         }
 
-        Text {
+        background: Rectangle {
             anchors.fill: parent
-            verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
-            text: qsTr("hello window")
+            color: "white"
+        }
+
+        ListView {
+            id: documentView
+            anchors.fill: parent
+            clip: true
+            focus: true
+            spacing: 10
+
+            delegate: BlockDelegate {
+                baseUrl: repositoryHandler.openDocument
+            }
         }
     }
 }

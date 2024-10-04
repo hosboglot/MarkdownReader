@@ -2,6 +2,7 @@
 #define LOCALREPOSITORYLOADER_H
 
 #include "abstractrepositoryloader.h"
+#include "documentloaders/localdocumentloader.h"
 
 #include <QUrl>
 #include <QDebug>

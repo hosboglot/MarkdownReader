@@ -17,9 +17,21 @@ class RepositoryListModel : public QAbstractListModel
     Q_OBJECT
 
 public:
+    struct ListEntry {
+        QString name;
+        bool is_dir;
+        unsigned nested_depth;
+        QUrl path;
+        bool is_open = true;
+        bool is_hidden = false;
+    };
     enum RepositoryRoles {
         NameRole = Qt::UserRole + 1,
         NestedDepthRole,
+        IsDirRole,
+        PathRole,
+        IsOpenRole,
+        IsHiddenRole
     };
 
     explicit RepositoryListModel(QObject *parent = nullptr);
@@ -34,10 +46,16 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    bool setData(const QModelIndex &index, const QVariant &value, int role) override;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+
+    void setOpened(const QModelIndex &index, bool value);
     void setLocalSource(QUrl &path);
 private:
+    std::vector<ListEntry>::iterator _update_visibility(std::vector<ListEntry>::iterator parent);
+
     std::unique_ptr<AbstractRepositoryLoader> m_loader;
-    std::vector<AbstractRepositoryLoader::Entry> m_container;
+    std::vector<ListEntry> m_container;
 };
 
 #endif // REPOSITORYLISTMODEL_H

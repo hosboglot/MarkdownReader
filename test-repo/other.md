@@ -1,4 +1,4 @@
-<!--- "markdown-document": { "version": "1" } -->
+<!--- { "document-meta": { "version": "1" } } -->
 
 # Blockquotes
 
@@ -30,43 +30,8 @@ Quote break.
 <dl>
   <dt>Definition list</dt>
   <dd>Is something people use sometimes.</dd>
-
   <dt>Markdown in HTML</dt>
   <dd>Does *not* work **very** well. Use HTML <em>tags</em>.</dd>
 </dl>
-
-------
-
-# Horizontal Rules
-
-```
-Three or more...
-
----
-
-Hyphens
-
-***
-
-Asterisks
-
-___
-
-Underscores
-```
-
-Three or more...
-
----
-
-Hyphens
-
-***
-
-Asterisks
-
-___
-
-Underscores
 
 ------

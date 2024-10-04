@@ -4,11 +4,10 @@ LocalRepositoryLoader::LocalRepositoryLoader(QUrl path)
     : m_loading_stack{},
     m_depth_stack{}
 {
-    auto pathStr = path.toString();
+    auto pathStr = path.toEncoded();
 
     for (auto &it : _get_file_list(pathStr)) {
         m_loading_stack.push(it.absoluteFilePath());
-        qDebug() << it.absoluteFilePath();
     }
     m_depth_stack.push(m_loading_stack.size());
 }
@@ -27,13 +26,16 @@ std::vector<AbstractRepositoryLoader::Entry> LocalRepositoryLoader::fetchMore()
         m_depth_stack.top() -= 1;
 
         const QFileInfo info(current_path);
-        if (info.isDir() || (info.isFile() && _is_markdown_document(current_path))) {
+        if ((info.isDir() && info.fileName() != "assets") ||
+            (info.isFile() && _is_markdown_document(current_path))) {
             result.push_back(
                 Entry{/*file_name=*/info.fileName().toStdString(),
                       /*   is_dir=*/info.isDir(),
-                      /*    depth=*/m_depth_stack.size(),
-                      /*file_path=*/info.absoluteFilePath().toStdString() }
+                      /*    depth=*/static_cast<unsigned>(m_depth_stack.size()),
+                      /*file_path=*/current_path.toStdString() }
                 );
+        } else {
+            continue;
         }
 
         if (m_depth_stack.top() == 0) {
@@ -60,18 +62,13 @@ void LocalRepositoryLoader::setFetchNumber(const int n)
 
 QFileInfoList LocalRepositoryLoader::_get_file_list(const QString &path) const
 {
-    auto dir = QDir(path, "*.md", QDir::DirsLast,
-                    QDir::Files | QDir::AllDirs | QDir::NoSymLinks | QDir::NoDotAndDotDot);
-    qDebug() << dir;
-
-    const QFileInfoList entries = dir.entryInfoList();
-    for (auto &entry : entries) {
-        qDebug() << entry.exists() << entry.size() << entry.canonicalFilePath();
-    }
-    return entries;
+    return QDir(path, "*.md", QDir::DirsLast,
+                QDir::Files | QDir::AllDirs | QDir::NoSymLinks | QDir::NoDotAndDotDot)
+        .entryInfoList();
 }
 
 bool LocalRepositoryLoader::_is_markdown_document(const QString &path) const
 {
-    return true;  // TODO
+    LocalDocumentLoader loader(path);
+    return loader.isValid();
 }

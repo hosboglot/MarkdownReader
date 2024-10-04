@@ -2,10 +2,14 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QUrl>
+
+#ifdef Q_OS_ANDROID
 #include <QtAndroidExtras>
+#endif  //Q_OS_ANDROID
 
 #include "src/repositoryhandler.h"
 
+#ifdef Q_OS_ANDROID
 bool checkPermissions()
 {
     bool success = true;
@@ -41,6 +45,7 @@ bool checkPermissions()
     }
     return success;
 }
+#endif  //Q_OS_ANDROID
 
 int main(int argc, char *argv[])
 {
@@ -52,7 +57,10 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<RepositoryHandler>("repositoryHandler", 1, 0, "RepositoryHandler");
 
+#ifdef Q_OS_ANDROID
     checkPermissions();
+#endif  //Q_OS_ANDROID
+
     app.setOrganizationDomain("org");
     app.setOrganizationName("qtproject");
 

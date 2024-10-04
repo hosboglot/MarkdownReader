@@ -11,19 +11,25 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 REQUIRED COMPONENTS Core Quick)
 
+include_directories(src)
+
 set(PROJECT_SOURCES
         main.cpp
         qml.qrc
+        src/repositoryhandler.h src/repositoryhandler.cpp
+        src/repositorylistmodel.h src/repositorylistmodel.cpp
+        src/repositoryloaders/abstractrepositoryloader.h
+        src/repositoryloaders/localrepositoryloader.h src/repositoryloaders/localrepositoryloader.cpp
+        src/documentloaders/abstractdocumentloader.h
+        src/documentloaders/localdocumentloader.h src/documentloaders/localdocumentloader.cpp
 )
 
 if(ANDROID)
     add_library(MarkdownReader SHARED
         ${PROJECT_SOURCES}
-        src/repositoryhandler.h src/repositoryhandler.cpp
-        src/repositorylistmodel.h src/repositorylistmodel.cpp
-        src/repositoryloaders/abstractrepositoryloader.h
-        src/repositoryloaders/localrepositoryloader.h src/repositoryloaders/localrepositoryloader.cpp
-
+        android/AndroidManifest.xml android/build.gradle android/res/values/libs.xml android/gradle/wrapper/gradle-wrapper.jar android/gradle/wrapper/gradle-wrapper.properties android/gradle.properties android/gradlew android/gradlew.bat
+        src/documentmodel.h src/documentmodel.cpp
+        src/searchdocumentproxymodel.h src/searchdocumentproxymodel.cpp
     )
     # Define properties for Android with Qt 5 after find_package() calls as:
     set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")

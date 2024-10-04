@@ -1,4 +1,4 @@
-<!--- "markdown-document": { "version": "1" } -->
+<!--- { "document-meta": { "version": "1" } } -->
 
 # Code and Syntax Highlighting
 
